@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package microfuzz.msg_type;
+
+message Number {
+  uint32 num = 1;
+}
+
+message TestCases {
+  repeated TestCase test_cases = 1;
+}
+
+message TestCase {
+  bytes content = 2;
+  uint32 pid = 3;
+}
+
+message Feedbacks {
+  repeated Feedback feedbacks = 1;
+}
+
+message NewBit {
+  uint32 index = 1;
+  uint32 value = 2;
+}
+
+message NewCoverage {
+  repeated NewBit new_bits = 1;
+}
+
+message Counter {
+ uint32 counter = 1;
+}
+
+message FakeFeedback {
+  string fake = 1;
+}
+
+enum ExecutionStatus {
+  OK = 0;
+  TIMEOUT = 1;
+  CRASH = 2;
+  INTERESTING = 3;
+}
+
+message MutationInfo {
+  uint32 pid = 1;
+  uint32 mutator_id = 2;
+}
+
+message FeedbackData {
+  oneof feedback_data {
+    NewCoverage new_coverage = 4;
+    Counter counter = 5;
+    FakeFeedback fake_feedback= 6;
+  }
+}
+
+message Feedback {
+  TestCase test_case = 1;
+  ExecutionStatus status = 2;
+  MutationInfo mutation_info = 3;
+  FeedbackData data = 4;
+}
+
+message Empty {}
+
+message RegistrationStatus {
+  bool success = 1;
+}
+
+enum ServiceType {
+  MUTATOR = 0;
+  EXECUTOR = 1;
+  QUEUEMANAGER = 2;
+  FEEDBACKCOLLECTOR = 3;
+}
+
+message ServiceInfo {
+  ServiceType service_type = 1;
+  string socket_addr = 2;
+}
+
+message ServiceList {
+  repeated ServiceInfo services = 1;
+}
+
+message MonitorData {
+  repeated string data = 1;
+}

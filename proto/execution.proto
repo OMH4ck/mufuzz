@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package microfuzz.execution;
+
+import "msg_type.proto";
+
+service Executor {
+  rpc ExecuteTestCases(msg_type.TestCases) returns (msg_type.Empty);
+  rpc GetFeedbacks(msg_type.Number) returns (msg_type.Feedbacks);
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package microfuzz.feedback;
+
+import "msg_type.proto";
+
+service FeedbackCollector {
+  rpc CheckFeedbacks(msg_type.Feedbacks) returns (msg_type.Empty);
+  rpc GetInterestingTestCases(msg_type.Number) returns (msg_type.TestCases);
+  rpc GetMutationFeedbacks(msg_type.Number) returns (msg_type.Feedbacks);
+  rpc GetTestCaseFeedbacks(msg_type.Number) returns (msg_type.Feedbacks);
+
+  rpc RetrieveMonitorData(msg_type.Empty) returns (msg_type.MonitorData);
+}

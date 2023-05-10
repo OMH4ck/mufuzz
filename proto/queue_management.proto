@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package microfuzz.queue_management;
+
+import "msg_type.proto";
+
+service QueueManager {
+  // Get new test cases that we want to test/evaluate in executor.
+  rpc GetInterestingTestCases(msg_type.Number) returns (msg_type.TestCases);
+  // Receive the summary of execution feedback.
+  rpc PostInterestingTestCases(msg_type.TestCases) returns (msg_type.Empty);
+
+  rpc PostTestCaseFeedbacks(msg_type.Feedbacks) returns (msg_type.Empty);
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package microfuzz.mutation;
+
+import "msg_type.proto";
+
+service Mutator {
+  // Post interesting testcases for mutation.
+  rpc MutateTestCases(msg_type.TestCases) returns (msg_type.Number);
+  rpc GetMutatedTestCases(msg_type.Number) returns (msg_type.TestCases);
+  rpc PostMutationFeedbacks(msg_type.Feedbacks) returns (msg_type.Empty);
+}

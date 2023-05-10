@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package microfuzz.monitor;
+
+import "msg_type.proto";
+
+service Monitor {
+  rpc RegisterService(msg_type.ServiceInfo) returns (msg_type.RegistrationStatus);
+  rpc GetServices(msg_type.Empty) returns (msg_type.ServiceList);
+}
