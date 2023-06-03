@@ -1,6 +1,6 @@
 # mufuzz, a parallel fuzzing framework
 
-TODO: Add reference
+The orginal paper can be [here](https://changochen.github.io/publication/mufuzz_usenix_2023.pdf).
 
 ## Build
 1. Install `cargo` and `protoc`
