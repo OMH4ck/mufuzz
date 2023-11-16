@@ -218,7 +218,7 @@ macro_rules! arith_val_mutator_impl {
 impl BitFlipMutator {
     pub fn new() -> Self {
         // TODO: There are lots of duplicated mutated inputs.
-        let mutator_funcs = vec![
+        let mutator_funcs = [
             Self::byte_change as fn(&TestCase, &mut MutationRng) -> Option<TestCase>,
             //Self::bit_flip,
             Self::byte_insert, // 2

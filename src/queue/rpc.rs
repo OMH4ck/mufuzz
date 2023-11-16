@@ -88,7 +88,7 @@ mod tests {
             .await
             .unwrap();
 
-        let test_cases_str = vec![
+        let test_cases_str = [
             "select 1;",
             "create table v(c); select c from v;",
             "select printf(a, b);",

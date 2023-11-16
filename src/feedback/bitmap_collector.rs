@@ -159,9 +159,8 @@ impl FeedbackCollector for BitmapCollector {
                 }));
         }
 
-        self.interesting_test_cases
-            .extend(interesting_test_cases.into_iter());
-        self.crash_test_cases.extend(crash_test_cases.into_iter());
+        self.interesting_test_cases.extend(interesting_test_cases);
+        self.crash_test_cases.extend(crash_test_cases);
     }
 
     fn get_interesting_test_cases(&mut self, num: Option<usize>) -> Vec<Feedback> {
