@@ -7,6 +7,7 @@ on:
       - "tests/**"
       - "scripts/**"
       - "proto/**"
+  workflow_dispatch:
       
 
 name: Coverage
