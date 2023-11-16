@@ -495,10 +495,7 @@ impl<
         {
             let mut all_senders = self.output_senders.clone();
             for (sender, fuzzer_io_type) in less_contention_senders.into_iter() {
-                all_senders
-                    .entry(fuzzer_io_type)
-                    .or_default()
-                    .push(sender);
+                all_senders.entry(fuzzer_io_type).or_default().push(sender);
             }
             let all_receivers = inner_receivers
                 .into_iter()

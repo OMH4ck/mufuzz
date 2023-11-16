@@ -159,8 +159,7 @@ impl FeedbackCollector for BitmapCollector {
                 }));
         }
 
-        self.interesting_test_cases
-            .extend(interesting_test_cases);
+        self.interesting_test_cases.extend(interesting_test_cases);
         self.crash_test_cases.extend(crash_test_cases);
     }
 

@@ -88,9 +88,11 @@ mod tests {
             .await
             .unwrap();
 
-        let test_cases_str = ["select 1;",
+        let test_cases_str = [
+            "select 1;",
             "create table v(c); select c from v;",
-            "select printf(a, b);"];
+            "select printf(a, b);",
+        ];
 
         let request = tonic::Request::new(TestCases {
             test_cases: test_cases_str
