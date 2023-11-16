@@ -74,6 +74,7 @@ impl FeedbackCollector for BitmapCollector {
         let mut crash_counter: HashMap<datatype::MutationInfo, u32> = HashMap::new();
         let mut interesting_test_cases = Vec::default();
         let mut crash_test_cases = Vec::default();
+        let mut crashes_vec = Vec::new();
 
         let mut total_timeout: u64 = 0;
         let mut total_crash: u64 = 0;
@@ -100,6 +101,9 @@ impl FeedbackCollector for BitmapCollector {
                 }
                 ExecutionStatus::Crash => {
                     assert!(feedback.contain_test_case());
+                    let test_case_str =
+                        serde_json::to_string(feedback.borrow_test_case().unwrap()).unwrap();
+                    crashes_vec.push(test_case_str);
                     crash_test_cases.push(feedback);
                     *crash_counter.entry(mutation_info).or_insert(1) += 1;
                     total_crash += 1;
@@ -113,7 +117,8 @@ impl FeedbackCollector for BitmapCollector {
 
         // generate monitor data if any
         if total_crash != 0 {
-            self.monitor_data.push(json!({ "crash": total_crash }));
+            self.monitor_data
+                .push(json!({ "crash": total_crash, "testcases": crashes_vec }));
         }
         if total_timeout != 0 {
             self.monitor_data.push(json!({ "timeout": total_timeout }));

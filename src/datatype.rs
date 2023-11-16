@@ -1,9 +1,10 @@
 use crate::mutator::afl_mutator::DeterministicMutationPass;
+use serde::{Deserialize, Serialize};
 use std::sync::atomic::{AtomicU32, Ordering};
 
 pub type TestCaseID = u32;
 
-#[derive(Default, Clone, Debug)]
+#[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct TestCaseMetaInfo {
     #[allow(dead_code)]
     done_pass: DeterministicMutationPass, // All the finished determinsitic passes.
@@ -28,7 +29,7 @@ impl TestCaseMetaInfo {
     }
 }
 
-#[derive(Default, Clone, Debug)]
+#[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct TestCase {
     id: TestCaseID, // The id of the test_case itself or the id of parent. Since we won't use both of them at the same time, we reuse the same slot.
     mutator_id: u32,

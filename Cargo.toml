@@ -36,7 +36,7 @@ rayon = "1.5.3"
 dashmap = "5.3.4"
 #crossbeam = "0.8.1"
 psutil = "3.2.2"
-bitflags = "2.2.1"
+bitflags = {version ="2.2.1", features = ["serde"] }
 
 #[lib]
 #proc-macro = true

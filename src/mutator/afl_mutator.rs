@@ -8,6 +8,7 @@ use rand::seq::SliceRandom;
 use rand::Rng;
 use rand::SeedableRng;
 use rand_distr::WeightedAliasIndex;
+use serde::{Deserialize, Serialize};
 
 //use super::MutatorFunc;
 use core::mem::size_of;
@@ -85,7 +86,7 @@ pub struct BitFlipMutator {
 
 bitflags! {
     //TODO: Each determinitic pass should have a flag.
-    #[derive(Default, Clone, Debug, Copy)]
+    #[derive(Default, Clone, Debug, Copy, Serialize, Deserialize)]
     pub struct DeterministicMutationPass: u32 {
         const BITFLIP1 = 0b1;
         const BITFLIP2 = 0b10;

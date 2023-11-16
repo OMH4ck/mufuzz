@@ -5,6 +5,11 @@ use std::net::SocketAddr;
 use std::net::{IpAddr, Ipv4Addr};
 use std::sync::{Arc, Mutex, RwLock};
 
+use crate::datatype::TestCase;
+use crate::executor::ExecutionStatus;
+
+use self::output_writer::OutputWriter;
+
 pub mod output_writer;
 pub mod rpc;
 pub mod stats;
@@ -46,6 +51,35 @@ static WORKER_NUM: u32 = 1;
 
 pub fn get_worker_num() -> u32 {
     WORKER_NUM
+}
+
+fn dump_json_testcases(
+    output_writer: &OutputWriter,
+    stats: &serde_json::Value,
+    testcase_type: ExecutionStatus,
+) {
+    let test_case_vec = stats.get("testcases").unwrap().as_array().unwrap();
+    for test_case_val in test_case_vec {
+        let test_case_str = test_case_val.as_str().unwrap();
+        let mut test_case: TestCase = serde_json::from_str(test_case_str).unwrap();
+        match testcase_type {
+            ExecutionStatus::Crash => {
+                test_case.gen_id();
+                match output_writer.save_crash(&test_case) {
+                    Ok(_v) => {}
+                    Err(_e) => println!("Cannot write crash file"),
+                }
+            }
+            ExecutionStatus::Interesting => {
+                output_writer.save_queue(&test_case).unwrap();
+            }
+            ExecutionStatus::Timeout => {
+                test_case.gen_id();
+                output_writer.save_hang(&test_case).unwrap();
+            }
+            _ => {}
+        }
+    }
 }
 
 impl SimpleMonitor {
@@ -112,16 +146,25 @@ impl Monitor for SimpleMonitor {
 
     // TODO: Receive crash/hang/interesting test cases for saving in disk.
     fn receive_statistics(&self, stats: serde_json::Value) {
+        let mut testcase_type = ExecutionStatus::Ok;
         if let Some(v) = stats.get("exec") {
             self.fuzzer_info.add_exec(v.as_u64().unwrap());
         } else if let Some(v) = stats.get("crash") {
             self.fuzzer_info.add_crash(v.as_u64().unwrap());
+            testcase_type = ExecutionStatus::Crash;
         } else if let Some(v) = stats.get("timeout") {
             self.fuzzer_info.add_timeout_exec(v.as_u64().unwrap());
         } else if let Some(v) = stats.get("interesting_test_case") {
             self.fuzzer_info.add_coverage(v.as_u64().unwrap());
         } else {
             unreachable!();
+        }
+        if self.fuzzer_info.get_output_writer().is_some() && stats.get("testcases").is_some() {
+            dump_json_testcases(
+                self.fuzzer_info.get_output_writer().unwrap(),
+                &stats,
+                testcase_type,
+            )
         }
     }
 

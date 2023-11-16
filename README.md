@@ -15,7 +15,7 @@ wget https://github.com/protocolbuffers/protobuf/releases/download/v21.5/protoc-
 ## Run
 Basic run (for example, run on 20 cores):
 ```
-taskset -c 0-19 cargo run --release --  -c "your/command @@" -i input_corpus --core 20
+taskset -c 0-19 cargo run --release --  -c "your/command @@" -i input_corpus -o output --core 20
 ```
 
 Check the usage:
