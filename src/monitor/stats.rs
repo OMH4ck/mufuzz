@@ -90,6 +90,14 @@ impl FuzzerInfo {
         self.start_time = SystemTime::now();
     }
 
+    pub fn get_output_writer(&self) -> Option<&OutputWriter> {
+        if self.output_writer.is_some() {
+            Some(self.output_writer.as_ref().unwrap())
+        } else {
+            None
+        }
+    }
+
     fn simple_calculate(&self) {
         let elapsed_time = (self.start_time.elapsed().unwrap().as_millis() as u64).max(1);
         let last_print_time = self.last_print_time.swap(elapsed_time, Ordering::Relaxed);

@@ -965,10 +965,7 @@ pub async fn run_fuzzer_local_async_lock_free_mode(fuzzer: FuzzerConfig) {
 
     let closure = move || {
         // TODO: Fix the testcase minimizer
-        new_queue_frontend::QueueManagerWorker::new_with_seeds(
-            Some(init_seeds.clone()),
-            None,
-        )
+        new_queue_frontend::QueueManagerWorker::new_with_seeds(Some(init_seeds.clone()), None)
     };
     let mut queue_manager_frontend =
         new_queue_frontend::QueueManagerFrontend::new(Box::new(closure));
