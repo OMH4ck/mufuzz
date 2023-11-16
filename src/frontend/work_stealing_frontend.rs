@@ -392,7 +392,7 @@ impl Worker {
         }
         self.senders
             .entry(sender.get_type())
-            .or_insert(Vec::new())
+            .or_default()
             .push(sender);
     }
 
@@ -844,7 +844,7 @@ impl FuzzerBuilder {
     ) -> Self {
         self.connections
             .entry(from_frontend.to_string())
-            .or_insert(Vec::new())
+            .or_default()
             .push((to_frontend.to_string(), io_types));
         self
     }

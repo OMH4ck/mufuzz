@@ -117,7 +117,7 @@ mod tests {
             .await
             .unwrap();
 
-        let test_cases = vec!["select 1;", "create table v2;"]
+        let test_cases = ["select 1;", "create table v2;"]
             .iter()
             .map(|str| TestCase {
                 content: str.as_bytes().to_vec(),

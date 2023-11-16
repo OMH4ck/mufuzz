@@ -283,14 +283,14 @@ impl<
     pub fn register_non_blocking_output_handler(&mut self, key_type: FuzzerIOType, output: Sender) {
         self.non_blocking_output_senders
             .entry(key_type)
-            .or_insert(Vec::new())
+            .or_default()
             .push(output);
     }
 
     pub fn register_output_handler(&mut self, key_type: FuzzerIOType, output: Sender) {
         self.output_senders
             .entry(key_type)
-            .or_insert(Vec::new())
+            .or_default()
             .push(output);
     }
 
@@ -497,7 +497,7 @@ impl<
             for (sender, fuzzer_io_type) in less_contention_senders.into_iter() {
                 all_senders
                     .entry(fuzzer_io_type)
-                    .or_insert(Vec::new())
+                    .or_default()
                     .push(sender);
             }
             let all_receivers = inner_receivers

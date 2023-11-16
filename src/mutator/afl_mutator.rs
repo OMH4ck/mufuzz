@@ -218,8 +218,7 @@ macro_rules! arith_val_mutator_impl {
 impl BitFlipMutator {
     pub fn new() -> Self {
         // TODO: There are lots of duplicated mutated inputs.
-        let mutator_funcs = vec![
-            Self::byte_change as fn(&TestCase, &mut MutationRng) -> Option<TestCase>,
+        let mutator_funcs = [Self::byte_change as fn(&TestCase, &mut MutationRng) -> Option<TestCase>,
             //Self::bit_flip,
             Self::byte_insert, // 2
             Self::byte_delete,
@@ -236,8 +235,7 @@ impl BitFlipMutator {
             Self::afl_9_add_dword_arith_val,
             Self::afl_11_12_remove_bytes,
             Self::afl_13_clone_or_insert_bytes,
-            Self::afl_14_overwrite_bytes,
-        ]
+            Self::afl_14_overwrite_bytes]
         .iter()
         .enumerate()
         .map(|(idx, &func)| MutatorFunc::new(idx as u32, func, DEFAULT_SCORE))
