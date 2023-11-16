@@ -1,5 +1,9 @@
 # mufuzz, a parallel fuzzing framework
 
+[![build](https://github.com/OMH4ck/mufuzz/actions/workflows/main.yml/badge.svg)](https://github.com/Changochen/mufuzz/actions/workflows/main.yml)
+[![codecov](https://codecov.io/gh/OMH4ck/mufuzz/branch/main/graph/badge.svg?token=S29YN47226)](https://codecov.io/gh/OMH4ck/mufuzz)
+[![fmt](https://github.com/OMH4ck/mufuzz/actions/workflows/fmt.yml/badge.svg)](https://github.com/OMH4ck/mufuzz/actions/workflows/fmt.yml)
+
 The orginal paper can be [here](https://changochen.github.io/publication/mufuzz_usenix_2023.pdf).
 
 ## Build

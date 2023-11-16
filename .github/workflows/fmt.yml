@@ -1,0 +1,44 @@
+name: fmt
+
+on: 
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "scripts/**"
+      - "proto/**"
+  pull_request:
+    types: [ opened, synchronize ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  fmt:
+    runs-on: ubuntu-22.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Install Prerequisites
+        run: sh ./install.sh 
+
+      - name: add path
+        run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+        
+      - name: Run fmt check
+        run: cargo fmt --all -- --check
+      
+      - name: Run clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Check function complexity
+        run: python3 -m lizard -l rust src/* -L 300 -a 10
+
+      - name: proto lint
+        run: cd proto && prototool lint . --config-data '{"lint":{"group":"google"}}'
+
+      - name: python lint
+        run: cd scripts && python3 -m pylint --rcfile=.pylintrc *.py | tee | grep 10.00
